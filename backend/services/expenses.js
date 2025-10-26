@@ -1,27 +1,40 @@
-const fs = require('fs');
-const path = require('path');
+//i don't geeeetttt it, they said to only change 2 functions, but in the solutions eeeevveerything is different
 
-const EXPENSES_FILE_PATH = path.join(__dirname, '../data/expenses.json');
-const EXPENSES_INIT_FILE_PATH = path.join(__dirname, '../data/expenses.init.json');
+const { PrismaClient } = require('../generated/prisma/client');
+
+const prisma = new PrismaClient();
+
+const queryDatabaseAndDisconnect = (operation) => {
+  return operation().finally(() => {
+    prisma.$disconnect();
+  });
+};
 
 function getAllExpenses() {
-  const data = fs.readFileSync(EXPENSES_FILE_PATH, 'utf8');
-  return JSON.parse(data);
+  const operation = () => prisma.expense.findMany();
+  const expenses = queryDatabaseAndDisconnect(operation);
+  console.log(expenses);
+  return expenses;
 }
 
 function addExpense(expense) {
-  const expenses = getAllExpenses();
-  expenses.push(expense);
-
-  const updatedExpenses = JSON.stringify(expenses, null, 2);
-  fs.writeFileSync(EXPENSES_FILE_PATH, updatedExpenses);
-  return expense;
+  const operation = () => prisma.expense.create({ data: expense });
+  return queryDatabaseAndDisconnect(operation);
 }
 
+const INITIAL_DATA = [
+  { date: '2025-01-16T00:00:00Z', description: 'Example expense #1 from Alice', payer: 'Alice', amount: 25.5 },
+  { date: '2025-01-15T00:00:00Z', description: 'Example expense #2 from Bob', payer: 'Bob', amount: 35 },
+  { date: '2025-01-15T00:00:00Z', description: 'Example expense #3 from Alice', payer: 'Alice', amount: 2 },
+];
+
 function resetExpenses() {
-  const initData = fs.readFileSync(EXPENSES_INIT_FILE_PATH, 'utf8');
-  fs.writeFileSync(EXPENSES_FILE_PATH, initData);
-  return JSON.parse(initData);
+  const operation = async () => {
+    await prisma.expense.deleteMany({});
+    await prisma.expense.createMany({ data: INITIAL_DATA });
+    return prisma.expense.findMany();
+  };
+  return queryDatabaseAndDisconnect(operation);
 }
 
 module.exports = {
