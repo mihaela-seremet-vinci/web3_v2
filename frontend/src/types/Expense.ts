@@ -1,7 +1,6 @@
-export interface Expense {
-  id: string;
-  date: string;
+export interface ExpenseInput {
   description: string;
   payer: string;
   amount: number;
+  date: string; // ISO string
 }
