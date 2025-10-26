@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "npm install && npm run prisma:generate ",
+    "prisma:generate": "prisma generate --no-engine",
     "dev": "nodemon npm start",
     "start": "node ./bin/www"
   },
