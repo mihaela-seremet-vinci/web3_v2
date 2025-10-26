@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build": "npm install && npm run prisma:generate ",
     "dev": "nodemon npm start",
     "start": "node ./bin/www"
   },
