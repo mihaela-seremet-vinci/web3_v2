@@ -6,19 +6,12 @@ interface ExpenseItemProps {
 
 export default function ExpenseItem({ expense }: ExpenseItemProps) {
   return (
-    <div>
-      <div>
-        <strong>Date:</strong> {expense.date}
-      </div>
-      <div>
-        <strong>Description:</strong> {expense.description}
-      </div>
-      <div>
-        <strong>Payer:</strong> {expense.payer}
-      </div>
-      <div>
-        <strong>Amount:</strong> ${expense.amount.toFixed(2)}
-      </div>
-    </div>
+    <tr className="border-b hover:bg-primary/10 transition-colors duration-150">
+      <td className="py-2 px-4">{expense.id}</td>
+      <td className="py-2 px-4">{new Date(expense.date).toLocaleDateString()}</td>
+      <td className="py-2 px-4">{expense.description}</td>
+      <td className="py-2 px-4">{expense.payer}</td>
+      <td className="py-2 px-4 text-right">${expense.amount.toFixed(2)}</td>
+    </tr>
   );
 }

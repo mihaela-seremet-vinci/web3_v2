@@ -4,3 +4,6 @@ export interface ExpenseInput {
   amount: number;
   date: string; // ISO string
 }
+export interface Expense extends ExpenseInput {
+  id: string;
+}

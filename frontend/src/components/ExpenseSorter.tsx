@@ -37,9 +37,14 @@ export default function ExpenseSorter({ setSortingAlgo }: ExpenseSorterProps) {
   };
 
   return (
-    <div>
-      <label htmlFor="sort-select">Sort by:</label>
-      <select id="sort-select" value={sortBy} onChange={handleSortChange}>
+    <div className="mb-4 flex items-center gap-2">
+      <label htmlFor="sort-select" className="font-medium">Sort by:</label>
+      <select 
+        id="sort-select" 
+        value={sortBy} 
+        onChange={handleSortChange}
+        className="border border-gray-300 rounded p-2 bg-white hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors duration-200"
+      >
         <option value="date-newest">Date (Newest First)</option>
         <option value="date-oldest">Date (Oldest First)</option>
         <option value="amount-highest">Amount (Highest First)</option>
